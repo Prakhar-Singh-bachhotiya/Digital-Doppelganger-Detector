@@ -184,19 +184,34 @@
             <div id="result" class="mt-4"></div>
         </div>
     </div>
-    <section id="about" class="about-section">
-        <h2>About InstaVerify</h2>
-        <p>
-            InstaVerify helps users detect whether an Instagram account is real or fake using machine learning and official data pulled directly from Instagram’s API.
-            It's a smart, fast, and free tool for safety on social media.
-        </p>
-    </section>
-    
-<section id="contact" class="contact-section">
-    <h2>Contact Us</h2>
-    <p>Phone: <a href="tel:+918349485796">8349485796</a></p>
-    <p>Email: <a href="mailto:prakharsinghbachhotiya@gmail.com">prakharsinghbachhotiya@gmail.com</a></p>
-</section>
+        <!-- About & Contact Section -->
+        <section id="about-contact" class="about-contact-section text-light py-5">
+            <div class="container">
+                <div class="row">
+                    <!-- About Section -->
+                    <div class="col-md-6">
+                        <h2>About InstaVerify</h2>
+                        <p>
+                            InstaVerify helps users detect whether an Instagram account is real or fake using machine learning and official data pulled directly from Instagram’s API.
+                            It's a smart, fast, and free tool for safety on social media.
+                        </p>
+                    </div>
+                    <!-- Contact Section -->
+                    <div class="col-md-6">
+                        <h2>Contact Us</h2>
+                        <form id="contactForm" onsubmit="event.preventDefault(); sendQuery();">
+                            <div class="mb-3">
+                                <label for="query" class="form-label">Your Query</label>
+                                <textarea id="query" class="form-control" rows="4" placeholder="Write your query here..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Submit</button>
+                        </form>
+                        <p class="mt-3">Phone: <a href="tel:+918349485796" class="text-light">8349485796</a></p>
+                        <p>Email: <a href="mailto:prakharsinghbachhotiya@gmail.com" class="text-light">prakharsinghbachhotiya@gmail.com</a></p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
     <footer class="text-center mt-5 py-3 bg-dark text-light">
         <p>&copy; 2025 Account Predictor. All rights reserved.</p>

@@ -112,5 +112,36 @@ def predict_features():
 
     except Exception as e:
         return jsonify({'error': f"An error occurred: {e}"}), 500
+    
+    from flask import Flask, request, jsonify
+import smtplib
+
+@app.route('/send_query', methods=['POST'])
+def send_query():
+    try:
+        data = request.get_json()
+        query = data.get('query')
+
+        if not query:
+            return jsonify({'error': 'Query is required.'}), 400
+
+        # Send email (replace with your email credentials)
+        sender_email = "your_email@example.com"
+        sender_password = "your_password"
+        recipient_email = "support_team@example.com"
+
+        with smtplib.SMTP("smtp.gmail.com", 587) as server:
+            server.starttls()
+            server.login(sender_email, sender_password)
+            server.sendmail(
+                sender_email,
+                recipient_email,
+                f"Subject: New Query from InstaVerify\n\n{query}"
+            )
+
+        return jsonify({'message': 'Query sent successfully.'})
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 if __name__ == '__main__':
     app.run(debug=True)
