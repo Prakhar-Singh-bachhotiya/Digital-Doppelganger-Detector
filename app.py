@@ -112,5 +112,59 @@ def predict_features():
 
     except Exception as e:
         return jsonify({'error': f"An error occurred: {e}"}), 500
+    
+# ********************************************
+# send querry part fine till above    
+
+from flask import Flask, request, jsonify
+import smtplib
+
+@app.route('/send_query', methods=['POST'])
+def send_query():
+    try:
+        data = request.get_json()
+        customer_name = data.get('customerName')
+        customer_email = data.get('customerEmail')
+        query = data.get('query')
+
+        if not customer_name or not customer_email or not query:
+            return jsonify({'error': 'All fields are required.'}), 400
+
+        # Email credentials (replace with your email credentials)
+        sender_email = "psbcheeku@gmail.com"
+        sender_password = "emyh mkrl eqtg jhpa"
+        support_email = "psbcheeku@gmail.com"
+
+        # Send email to support team
+        with smtplib.SMTP("smtp.gmail.com", 587) as server:
+            server.starttls()
+            server.login(sender_email, sender_password)
+            server.sendmail(
+                sender_email,
+                support_email,
+                f"Subject: New Query from {customer_name}\n\n"
+                f"Name: {customer_name}\n"
+                f"Email: {customer_email}\n"
+                f"Query: {query}"
+            )
+
+        # Send confirmation email to customer
+        with smtplib.SMTP("smtp.gmail.com", 587) as server:
+            server.starttls()
+            server.login(sender_email, sender_password)
+            server.sendmail(
+                sender_email,
+                customer_email,
+                f"Subject: Query Received\n\n"
+                f"Dear {customer_name},\n\n"
+                f"Thank you for reaching out to us. Your query has been recorded and will be responded to within 2-3 business days.\n\n"
+                f"Best regards,\n"
+                f"InstaVerify Support Team"
+            )
+
+        return jsonify({'message': 'Query sent successfully.'})
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 if __name__ == '__main__':
     app.run(debug=True)
