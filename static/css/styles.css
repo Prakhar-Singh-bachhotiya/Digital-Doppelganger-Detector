@@ -28,6 +28,11 @@ body {
     text-align: center;
 }
 
+/* Spacer Styling */
+.spacer {
+    height: 50px;
+}
+
 /* About & Contact Section Styling */
 .about-contact-section {
     background-color: #222;
@@ -74,6 +79,16 @@ footer {
     color: white;
     text-align: center;
     padding: 1rem;
-    margin-top: 3rem;
     font-size: 0.9rem;
+    animation: fadeIn 3s infinite alternate;
+}
+
+/* Footer Animation */
+@keyframes fadeIn {
+    0% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
 }

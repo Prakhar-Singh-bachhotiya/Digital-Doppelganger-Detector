@@ -169,36 +169,34 @@
         }
 
         async function sendQuery() {
-    const customerName = document.getElementById("customerName").value.trim();
-    const customerEmail = document.getElementById("customerEmail").value.trim();
-    const query = document.getElementById("query").value.trim();
+            const query = document.getElementById("query").value;
 
-    if (!customerName || !customerEmail || !query) {
-        alert("Please fill out all fields.");
-        return;
-    }
+            if (!query) {
+                alert("Please write your query.");
+                return;
+            }
 
-    try {
-        const response = await fetch("/send_query", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ customerName, customerEmail, query })
-        });
+            try {
+                const response = await fetch("/send_query", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ query })
+                });
 
-        const result = await response.json();
+                const result = await response.json();
 
-        if (response.ok) {
-            alert("Your query has been sent successfully! You will receive a confirmation email shortly.");
-            document.getElementById("contactForm").reset();
-        } else {
-            alert(`Error: ${result.error}`);
+                if (response.ok) {
+                    alert("Your query has been sent successfully!");
+                    document.getElementById("contactForm").reset();
+                } else {
+                    alert(`Error: ${result.error}`);
+                }
+            } catch (error) {
+                alert(`Error: ${error.message}`);
+            }
         }
-    } catch (error) {
-        alert(`Error: ${error.message}`);
-    }
-}
     </script>
 </body>
 </html>
