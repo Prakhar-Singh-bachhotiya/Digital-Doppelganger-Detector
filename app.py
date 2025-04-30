@@ -62,5 +62,55 @@ def predict():
     except Exception as e:
         return jsonify({'error': f"An error occurred: {e}"}), 500
 
+@app.route('/add_features')
+def add_features():
+    return render_template('add_features.html')  # Create an `add_features.html` file
+
+@app.route('/predict_features', methods=['POST'])
+def predict_features():
+    try:
+        # Parse JSON input
+        data = request.get_json()
+        if not data:
+            return jsonify({'error': 'Invalid input. Please provide feature data.'}), 400
+
+        # Extract features from input
+        features = {
+            'profile pic': data.get('profile pic', 1),
+            'nums/length username': data.get('nums/length username', 0),
+            'fullname words': data.get('fullname words', 0),
+            'nums/length fullname': data.get('nums/length fullname', 0),
+            'name==username': data.get('name==username', 0),
+            'description length': data.get('description length', 80),
+            'external URL': data.get('external URL', 1),
+            'private': data.get('private', 0),
+            '#posts': data.get('#posts', 0),
+            '#followers': data.get('#followers', 0),
+            '#follows': data.get('#follows', 0)
+        }
+
+        # Convert the features to a DataFrame
+        df = pd.DataFrame([features])
+
+        # List all feature columns that the model was trained with
+        trained_features = [
+            'profile pic', 'nums/length username', 'fullname words', 'nums/length fullname',
+            'name==username', 'description length', 'external URL', 'private',
+            '#posts', '#followers', '#follows'
+        ]
+
+        # Ensure the order of columns matches the training data
+        df = df[trained_features]
+
+        # Make prediction
+        prediction = model.predict(df)[0]  # Model prediction
+
+        # Map prediction result to "Real" or "Fake"
+        result = "Real" if prediction == 0 else "Fake"
+
+        return jsonify({'prediction': result})
+
+    except Exception as e:
+        return jsonify({'error': f"An error occurred: {e}"}), 500
 if __name__ == '__main__':
     app.run(debug=True)
